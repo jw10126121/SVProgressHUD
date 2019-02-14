@@ -704,11 +704,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
                               delay:0
                             options:(UIViewAnimationOptions) (UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState)
                          animations:^{
-                             [self moveToPoint:newCenter rotateAngle:rotateAngle];
+                             [self moveToPoint:newCenter rotateAngle:-M_PI_2];
                              [self.hudView setNeedsDisplay];
                          } completion:nil];
     } else {
-        [self moveToPoint:newCenter rotateAngle:rotateAngle];
+        [self moveToPoint:newCenter rotateAngle:-M_PI_2];
     }
 }
 
