@@ -695,7 +695,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     CGFloat posX = CGRectGetMidX(orientationFrame);
     CGFloat posY = floorf(activeHeight*0.45f);
 
-    CGFloat rotateAngle = 0.0;
+    CGFloat rotateAngle = -M_PI_2;
     CGPoint newCenter = CGPointMake(posX, posY);
     
     if(notification) {
@@ -704,11 +704,11 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
                               delay:0
                             options:(UIViewAnimationOptions) (UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState)
                          animations:^{
-                             [self moveToPoint:newCenter rotateAngle:-M_PI_2];
+                             [self moveToPoint:newCenter rotateAngle:rotateAngle];
                              [self.hudView setNeedsDisplay];
                          } completion:nil];
     } else {
-        [self moveToPoint:newCenter rotateAngle:-M_PI_2];
+        [self moveToPoint:newCenter rotateAngle:rotateAngle];
     }
 }
 
