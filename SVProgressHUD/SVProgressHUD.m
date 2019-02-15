@@ -899,7 +899,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         
         __block void (^animationsBlock)(void) = ^{
             // Zoom HUD a little to make a nice appear / pop up animation
-            self.hudView.transform = CGAffineTransformIdentity;
+            self.hudView.transform = CGAffineTransformMakeRotation(-M_PI_2);
             
             // Fade in all effects (colors, blur, etc.)
             [self fadeInEffects];
