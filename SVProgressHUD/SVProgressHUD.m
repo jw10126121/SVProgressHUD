@@ -695,7 +695,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     CGFloat posX = CGRectGetMidX(orientationFrame);
     CGFloat posY = floorf(activeHeight*0.45f);
 
-    CGFloat rotateAngle = -M_PI_2;
+    CGFloat rotateAngle = 0.0;
     CGPoint newCenter = CGPointMake(posX, posY);
     
     if(notification) {
@@ -866,6 +866,18 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     }];
 }
 
+- (CGAffineTransform)transformRotationAngle:(UIInterfaceOrientation)io {
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    if (io == UIInterfaceOrientationLandscapeLeft) {
+        transform = CGAffineTransformMakeRotation(-M_PI_2);
+    } else if (io == UIInterfaceOrientationLandscapeRight) {
+        transform = CGAffineTransformMakeRotation(M_PI_2);
+    }
+    
+    return transform;
+}
+
 - (void)fadeIn:(id)data {
     // Update the HUDs frame to the new content and position HUD
     [self updateHUDFrame];
@@ -899,7 +911,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         
         __block void (^animationsBlock)(void) = ^{
             // Zoom HUD a little to make a nice appear / pop up animation
-            self.hudView.transform = CGAffineTransformMakeRotation(-M_PI_2);
+            self.hudView.transform = [[self class] transformRotationAngle: [UIApplication sharedApplication].statusBarOrientation];
             
             // Fade in all effects (colors, blur, etc.)
             [self fadeInEffects];
