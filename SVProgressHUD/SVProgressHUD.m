@@ -939,18 +939,19 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
                                                             object:self
                                                           userInfo:[self notificationUserInfo]];
         
+        UIInterfaceOrientation io = [UIApplication sharedApplication].statusBarOrientation;
+        
+//        if ([self interfaceOrientation:[UIDevice currentDevice].orientation] == io) {
+//            self.hudView.transform = CGAffineTransformIdentity;
+//        } else {
+            self.hudView.transform = [self transformRotationAngle: io];
+//        }
+        
         // Shrink HUD to to make a nice appear / pop up animation
         self.hudView.transform = self.hudView.transform = CGAffineTransformScale(self.hudView.transform, 1/1.5f, 1/1.5f);
         
         __block void (^animationsBlock)(void) = ^{
             // Zoom HUD a little to make a nice appear / pop up animation
-            UIInterfaceOrientation io = [UIApplication sharedApplication].statusBarOrientation;
-            
-            if ([self interfaceOrientation:[UIDevice currentDevice].orientation] == io) {
-                self.hudView.transform = CGAffineTransformIdentity;
-            } else {
-                self.hudView.transform = [self transformRotationAngle: io];
-            }
             
             // Fade in all effects (colors, blur, etc.)
             [self fadeInEffects];
