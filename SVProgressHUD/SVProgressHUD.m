@@ -958,8 +958,6 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         
         __block void (^completionBlock)(void) = ^{
             
-            self.hudView.transform = CGAffineTransformIdentity;
-            
             // Check if we really achieved to show the HUD (<=> alpha)
             // and the change of these values has not been cancelled in between e.g. due to a dismissal
             if(self.backgroundView.alpha == 1.0f){
@@ -1025,6 +1023,9 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         __strong SVProgressHUD *strongSelf = weakSelf;
         if(strongSelf){
+            
+            strongSelf.hudView.transform = CGAffineTransformIdentity;
+
             // Stop timer
             strongSelf.graceTimer = nil;
             
