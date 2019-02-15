@@ -946,7 +946,7 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         [[NSNotificationCenter defaultCenter] postNotificationName:SVProgressHUDWillAppearNotification
                                                             object:self
                                                           userInfo:[self notificationUserInfo]];
-                
+        
         // Shrink HUD to to make a nice appear / pop up animation
         self.hudView.transform = self.hudView.transform = CGAffineTransformScale(self.hudView.transform, 1/1.5f, 1/1.5f);
         
@@ -1025,8 +1025,6 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         __strong SVProgressHUD *strongSelf = weakSelf;
         if(strongSelf){
             
-            strongSelf.hudView.transform = CGAffineTransformIdentity;
-
             // Stop timer
             strongSelf.graceTimer = nil;
             
@@ -1047,6 +1045,9 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
             };
             
             __block void (^completionBlock)(void) = ^{
+                
+                strongSelf.hudView.transform = CGAffineTransformIdentity;
+
                 // Check if we really achieved to dismiss the HUD (<=> alpha values are applied)
                 // and the change of these values has not been cancelled in between e.g. due to a new show
                 if(self.backgroundView.alpha == 0.0f){
