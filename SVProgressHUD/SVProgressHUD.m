@@ -932,21 +932,21 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     // Get duration
     id duration = [data isKindOfClass:[NSTimer class]] ? ((NSTimer *)data).userInfo : data;
     
+    UIInterfaceOrientation io = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if ([self interfaceOrientation:[UIDevice currentDevice].orientation] == io) {
+        self.hudView.transform = CGAffineTransformIdentity;
+    } else {
+        self.hudView.transform = [self transformRotationAngle: io];
+    }
+    
     // Show if not already visible
     if(self.backgroundView.alpha != 1.0f) {
         // Post notification to inform user
         [[NSNotificationCenter defaultCenter] postNotificationName:SVProgressHUDWillAppearNotification
                                                             object:self
                                                           userInfo:[self notificationUserInfo]];
-        
-        UIInterfaceOrientation io = [UIApplication sharedApplication].statusBarOrientation;
-        
-//        if ([self interfaceOrientation:[UIDevice currentDevice].orientation] == io) {
-//            self.hudView.transform = CGAffineTransformIdentity;
-//        } else {
-            self.hudView.transform = [self transformRotationAngle: io];
-//        }
-        
+                
         // Shrink HUD to to make a nice appear / pop up animation
         self.hudView.transform = self.hudView.transform = CGAffineTransformScale(self.hudView.transform, 1/1.5f, 1/1.5f);
         
