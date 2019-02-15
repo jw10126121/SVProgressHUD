@@ -878,6 +878,39 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     return transform;
 }
 
+- (UIInterfaceOrientation)interfaceOrientation:(UIDeviceOrientation)deviceO {
+    
+    UIInterfaceOrientation toIO = UIInterfaceOrientationPortrait;
+    switch (deviceO) {
+        case UIDeviceOrientationUnknown:
+            toIO = UIInterfaceOrientationUnknown;
+            break;
+        case UIDeviceOrientationPortrait:
+            toIO = UIInterfaceOrientationPortrait;
+            break;
+        case UIDeviceOrientationPortraitUpsideDown:
+            toIO = UIInterfaceOrientationPortraitUpsideDown;
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            toIO = UIInterfaceOrientationLandscapeRight;
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            toIO = UIInterfaceOrientationLandscapeLeft;
+            break;
+        case UIDeviceOrientationFaceUp:
+            toIO = UIInterfaceOrientationPortrait;
+            break;
+        case UIDeviceOrientationFaceDown:
+            toIO = UIInterfaceOrientationPortrait;
+            break;
+        default:
+            break;
+    }
+    
+    return toIO;
+    
+}
+
 - (void)fadeIn:(id)data {
     // Update the HUDs frame to the new content and position HUD
     [self updateHUDFrame];
@@ -912,13 +945,21 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
         __block void (^animationsBlock)(void) = ^{
             // Zoom HUD a little to make a nice appear / pop up animation
             UIInterfaceOrientation io = [UIApplication sharedApplication].statusBarOrientation;
-            self.hudView.transform = [self transformRotationAngle: io];
+            
+            if ([self interfaceOrientation:[UIDevice currentDevice].orientation] == io) {
+                self.hudView.transform = CGAffineTransformIdentity;
+            } else {
+                self.hudView.transform = [self transformRotationAngle: io];
+            }
             
             // Fade in all effects (colors, blur, etc.)
             [self fadeInEffects];
         };
         
         __block void (^completionBlock)(void) = ^{
+            
+            self.hudView.transform = CGAffineTransformIdentity;
+            
             // Check if we really achieved to show the HUD (<=> alpha)
             // and the change of these values has not been cancelled in between e.g. due to a dismissal
             if(self.backgroundView.alpha == 1.0f){
