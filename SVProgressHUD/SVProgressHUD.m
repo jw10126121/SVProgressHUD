@@ -516,6 +516,16 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     UIInterpolatingMotionEffectType xMotionEffectType = UIInterfaceOrientationIsPortrait(orientation) ? UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis : UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis;
     UIInterpolatingMotionEffectType yMotionEffectType = UIInterfaceOrientationIsPortrait(orientation) ? UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis : UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis;
     [self updateMotionEffectForXMotionEffectType:xMotionEffectType yMotionEffectType:yMotionEffectType];
+    
+    if (orientation == UIInterfaceOrientationLandscapeRight) {
+        self.transform = CGAffineTransformMakeRotation(M_PI_2);
+    } if (orientation == UIInterfaceOrientationLandscapeLeft) {
+        self.transform = CGAffineTransformMakeRotation(-M_PI_2);
+    } else if (orientation == UIInterfaceOrientationPortrait){
+        self.transform = CGAffineTransformIdentity;
+    }
+    
+    
 }
 #endif
 
@@ -932,13 +942,13 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     // Get duration
     id duration = [data isKindOfClass:[NSTimer class]] ? ((NSTimer *)data).userInfo : data;
     
-    UIInterfaceOrientation io = [UIApplication sharedApplication].statusBarOrientation;
-    
-    if ([self interfaceOrientation:[UIDevice currentDevice].orientation] == io) {
-        self.hudView.transform = CGAffineTransformIdentity;
-    } else {
-        self.hudView.transform = [self transformRotationAngle: io];
-    }
+//    UIInterfaceOrientation io = [UIApplication sharedApplication].statusBarOrientation;
+//
+//    if ([self interfaceOrientation:[UIDevice currentDevice].orientation] == io) {
+//        self.hudView.transform = CGAffineTransformIdentity;
+//    } else {
+//        self.hudView.transform = [self transformRotationAngle: io];
+//    }
     
     // Show if not already visible
     if(self.backgroundView.alpha != 1.0f) {
