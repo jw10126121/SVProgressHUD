@@ -519,12 +519,9 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
     
     if (orientation == UIInterfaceOrientationLandscapeRight) {
         self.transform = CGAffineTransformMakeRotation(M_PI_2);
-    } if (orientation == UIInterfaceOrientationLandscapeLeft) {
-        self.transform = CGAffineTransformMakeRotation(-M_PI_2);
-    } else if (orientation == UIInterfaceOrientationPortrait){
+    } else if (orientation == UIInterfaceOrientationPortrait) {
         self.transform = CGAffineTransformIdentity;
     }
-    
     
 }
 #endif
@@ -1055,8 +1052,6 @@ static const CGFloat SVProgressHUDLabelSpacing = 8.0f;
             };
             
             __block void (^completionBlock)(void) = ^{
-                
-                strongSelf.hudView.transform = CGAffineTransformIdentity;
 
                 // Check if we really achieved to dismiss the HUD (<=> alpha values are applied)
                 // and the change of these values has not been cancelled in between e.g. due to a new show
